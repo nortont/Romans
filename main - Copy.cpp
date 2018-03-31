@@ -24,33 +24,28 @@ using namespace std;
 void upperCase(string &strInput);
 int findRomansFromRight(string strInput);
 string selectRoman(string & strInput);
-int extractDigits(string stInput, bool& isRoman);
 
 /*
  * Man Program
  */
-int main1(int argc, char** argv) {
+int main(int argc, char** argv) {
     string strInput = "";
     string strRoman; // Hold string cut down to first Roman number only
     int pos = 0; //current location in the search string
-    int intDigits = 0; // Value of numbers inputed
-    bool isRoman = true; // if is numbers of Roman input
 
     // Check for input arguments
     if (argc > 1) {
         strInput = argv[1];
     }
+    
+   
+    while(cin>>strInput){;
 
-
-    while (cin >> strInput) {
-        ;
-
-        //Test if number or letter
-                intDigits = extractDigits(strInput, isRoman);
-                if(isRoman==false){
-                    cout<<"Johan is the man";
-                }
-                else {
+ //Test if number or letter
+        if(isdigit(strInput[0])){
+        cout<<"number";
+    }
+    
         // convert all to uppercase
         upperCase(strInput);
 
@@ -62,32 +57,14 @@ int main1(int argc, char** argv) {
          */
 
         cout << findRomansFromRight(strRoman) << endl;
-
-        // cin>>strInput; // Get the next input
+ 
+       // cin>>strInput; // Get the next input
     }
-                }
     return 0;
 }
 
-int extractDigits(string strInput, bool& isRoman) {
-    int intTemp = 0;
-    //test if all numbers and use that if true
-    if (strInput.find_first_not_of("0123456789") == string::npos) {
-        intTemp = stoi(strInput);
-        isRoman = false; //decimal numbers
-        return intTemp;
-    }
-    else {
-        isRoman = true; //not decimal   
-        return -1;
-    }
-    //    for (int i = 0; i <= strInput.length(); i++) {
-    //        if (isdigit(strInput[i])) {
-    //          intTemp=strInput[i];  // append number to intTemp
-    //            
-    //            cout << "number";
-    //        }
-}
+
+
 
 /*
  * Convert the input as a reference to uppercase
@@ -135,10 +112,10 @@ int findRomansFromRight(string strInput) {
                 total = total + value;
                 break;
             case 'V':
-                if (strInput[position + 1] == 'V') { //if digit before is also  if (strInput[position + 1] == 'D'){  //if digit before is also D......
-                    break;
-                }
-                total = total + 5; // V
+                 if (strInput[position + 1] == 'V'){  //if digit before is also  if (strInput[position + 1] == 'D'){  //if digit before is also D......
+                     break;
+                 }
+                     total = total + 5; // V
                 break;
             case 'X':
                 if (strInput[position + 1] == 'L' || //if digit before X is a L
@@ -150,10 +127,10 @@ int findRomansFromRight(string strInput) {
                 total = total + value;
                 break;
             case 'L':
-                if (strInput[position + 1] == 'L') { //if digit before is also ...
-                    break;
-                }
-                total = total + 50;
+                 if (strInput[position + 1] == 'L'){  //if digit before is also ...
+                     break;
+                 }
+                     total = total + 50;
                 break;
             case 'C':
                 if (strInput[position + 1] == 'D' || //if digit before C is a D...
@@ -166,10 +143,10 @@ int findRomansFromRight(string strInput) {
                 break;
             case 'D':
                 //Test for DD...
-                if (strInput[position + 1] == 'D') { //if digit before is also D...
+                if (strInput[position + 1] == 'D'){  //if digit before is also D...
                     break;
                 }
-                total = total + 500;
+                    total = total + 500;
                 break;
             case'M':
                 total = total + 1000;
