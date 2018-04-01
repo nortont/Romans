@@ -205,88 +205,9 @@ string selectRoman(string & strInput) {
 
 }
 
-string convertToRoman(int intInput) {
-
-    const int MAX_INPUT_NUM = 3999; // These constants hold high and low integer numbers,
-    const int MIN_INPUT_NUM = 1;
-    const int ANSWER_SIZE = 4; // and the array size declarator.
 
 
-    string answers[ANSWER_SIZE] = {"", "", "", ""}; //holds the output from the convert function.
-
-// Check that the input is in the allowed range
-    if (intInput == 0 || intInput > MAX_INPUT_NUM) {
-        return "Invalid Value. Number must be between 1 and 3999";
-
-    } else if (intInput < MIN_INPUT_NUM) {
-        return "Invalid Value. Number must be between 1 and 3999";
-
-    }
-// Separate the different multipliers
-    int thous = intInput / 1000;
-    int hund = intInput % 1000 / 100;
-    int tens = intInput % 100 / 10;
-    int ones = intInput % 10 / 1;
-
-// Replace the multiplier with the Roman sequence
-    answers[0] = convert(thous, "M", "M", "M");
-    answers[1] = convert(hund, "C", "D", "M");
-    answers[2] = convert(tens, "X", "L", "C");
-    answers[3] = convert(ones, "I", "V", "X");
-
-    string strRomanOut;
-    strRomanOut = answers[0] + answers[1] + answers[2] + answers[3];
-
-    return strRomanOut;
-
-}
-
-/*
- * Replace the decimal value for each multiplier with the equivelant Roman
- * numeral
- */
-string convert(int digit, string first, string second, string third) {
-    if (digit == 1) {
-        return first;
-    }
-    if (digit == 2) {
-        return first + first;
-    }
-    if (digit == 3) {
-        return first + first + first;
-    }
-    if (digit == 4) {
-        return first + second;
-    }
-    if (digit == 5) {
-        return second;
-    }
-    if (digit == 6) {
-        return second + first;
-    }
-    if (digit == 7) {
-        return second + first + first;
-    }
-    if (digit == 8) {
-        return second + first + first + first;
-    }
-    if (digit == 9) {
-        return first + third;
-    }
-    if (digit == 0) {
-        return "";
-    }
-}
-
-
-
-
-#include <iostream>
-#include <string>
-#include <iomanip>
-using namespace std;
-
-string numToRoman(string strUserNum)
+string numToRoman(string strInput)
 {
 
 //set the size of the array to 10
@@ -294,12 +215,9 @@ string numToRoman(string strUserNum)
 
 //declare variables
     int userNum = 0;
-//    string strUserNum;
-//
-//    cin >> strUserNum;
 
-//change cin from user from str to int   
-    userNum = stoi(strUserNum);
+//change strInput from user from str to int   
+//    userNum = stoi(strInput);
 
     
 //initialise the romans array
@@ -315,7 +233,7 @@ string numToRoman(string strUserNum)
     int d = userNum % 10 / 1;
 
 //prints the roman number 
-    return thos[a]+huns[b]+tens[c]+ones[d];
-
+    string strOutput = thos[a]+huns[b]+tens[c]+ones[d];
+    return strOutput;
     
 }
