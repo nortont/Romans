@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   main.cpp
- * Author: Tim
- *
- * Created on 22 March 2018, 9:21 AM
+/*--------------------------------------------------
+ * Roman Numbers
+ * -------------------------------------------------
+ * Team: Josh Mclachlan, Johan Konigsmann, Tim Norton
+ * Date: 1 April 2018 
  */
 
 #include <cstdlib>
@@ -19,9 +13,6 @@
 #include <iomanip>
 #include <bits/stdc++.h>
 
-
-
-
 using namespace std;
 
 
@@ -29,9 +20,9 @@ void upperCase(string &strInput);
 int findRomansFromRight(string strInput);
 string selectRoman(string & strInput);
 int extractDigits(string stInput, bool& isRoman);
-string convert(int digit, string low, string mid, string high);
-string convertToRoman(int intInput);
 string numToRoman(int intUserNum);
+
+
 /*
  * Man Program
  */
@@ -49,8 +40,7 @@ int main(int argc, char** argv) {
 
 
     while (cin >> strInput) {
-        ;
-
+    
         //Test if number or letter
         intDigits = extractDigits(strInput, isRoman);
         if (isRoman == false) {
