@@ -31,7 +31,7 @@ string selectRoman(string & strInput);
 int extractDigits(string stInput, bool& isRoman);
 string convert(int digit, string low, string mid, string high);
 string convertToRoman(int intInput);
-string numToRoman(string strUserNum);
+string numToRoman(int intUserNum);
 /*
  * Man Program
  */
@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
         intDigits = extractDigits(strInput, isRoman);
         if (isRoman == false) {
           //  string strRomanOut = convertToRoman(intDigits);
-            string strRomanOut = numToRoman(strInput);
+            string strRomanOut = numToRoman(intDigits);
             cout << strRomanOut << endl;
             
         } else {
@@ -207,30 +207,26 @@ string selectRoman(string & strInput) {
 
 
 
-string numToRoman(string strInput)
+string numToRoman(int intUserNum)
 {
 
 //set the size of the array to 10
     const int ARRAY_SIZE = 10;
 
 //declare variables
-    int userNum = 0;
 
-//change strInput from user from str to int   
-//    userNum = stoi(strInput);
 
-    
 //initialise the romans array
-    string thos[ARRAY_SIZE] = ("", "M", "MM", "MMM");                                    
+    string thos[ARRAY_SIZE] = {"", "M", "MM", "MMM"};                                    
     string huns[ARRAY_SIZE] = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};   
     string tens[ARRAY_SIZE] = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};    
     string ones[ARRAY_SIZE] = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"}; 
 
 //seperate the number into parts    
-    int a = userNum / 1000;
-    int b = userNum % 1000 / 100;
-    int c = userNum % 100 / 10;
-    int d = userNum % 10 / 1;
+    int a = intUserNum / 1000;
+    int b = intUserNum % 1000 / 100;
+    int c = intUserNum % 100 / 10;
+    int d = intUserNum % 10 / 1;
 
 //prints the roman number 
     string strOutput = thos[a]+huns[b]+tens[c]+ones[d];
