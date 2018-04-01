@@ -16,7 +16,11 @@
 #include <string>
 #include <locale>
 #include <cctype>
+#include <iomanip>
 #include <bits/stdc++.h>
+
+
+
 
 using namespace std;
 
@@ -25,11 +29,13 @@ void upperCase(string &strInput);
 int findRomansFromRight(string strInput);
 string selectRoman(string & strInput);
 int extractDigits(string stInput, bool& isRoman);
+string convert(int digit, string low, string mid, string high);
+string convertToRoman(int intInput);
 
 /*
  * Man Program
  */
-int main1(int argc, char** argv) {
+int main(int argc, char** argv) {
     string strInput = "";
     string strRoman; // Hold string cut down to first Roman number only
     int pos = 0; //current location in the search string
@@ -46,29 +52,33 @@ int main1(int argc, char** argv) {
         ;
 
         //Test if number or letter
-                intDigits = extractDigits(strInput, isRoman);
-                if(isRoman==false){
-                    cout<<"Johan is the man";
-                }
-                else {
-        // convert all to uppercase
-        upperCase(strInput);
+        intDigits = extractDigits(strInput, isRoman);
+        if (isRoman == false) {
+            string strRomanOut = convertToRoman(intDigits);
+            cout << strRomanOut << endl;
+        } else {
+            // convert all to uppercase
+            upperCase(strInput);
 
-        //select only parts that are Romans
-        strRoman = selectRoman(strInput);
+            //select only parts that are Romans
+            strRoman = selectRoman(strInput);
 
-        /*
-         * Convert from Roman to decimal
-         */
+            /*
+             * Convert from Roman to decimal
+             */
 
-        cout << findRomansFromRight(strRoman) << endl;
+            cout << findRomansFromRight(strRoman) << endl;
 
-        // cin>>strInput; // Get the next input
+            // cin>>strInput; // Get the next input
+        }
     }
-                }
     return 0;
 }
 
+/*
+ * Determine if the input is a decimal number
+ * Return true if it is 
+ */
 int extractDigits(string strInput, bool& isRoman) {
     int intTemp = 0;
     //test if all numbers and use that if true
@@ -76,17 +86,11 @@ int extractDigits(string strInput, bool& isRoman) {
         intTemp = stoi(strInput);
         isRoman = false; //decimal numbers
         return intTemp;
-    }
-    else {
+    } else {
         isRoman = true; //not decimal   
         return -1;
     }
-    //    for (int i = 0; i <= strInput.length(); i++) {
-    //        if (isdigit(strInput[i])) {
-    //          intTemp=strInput[i];  // append number to intTemp
-    //            
-    //            cout << "number";
-    //        }
+
 }
 
 /*
@@ -197,6 +201,79 @@ string selectRoman(string & strInput) {
         return strTemp;
     }
 
+}
+
+string convertToRoman(int intInput) {
+
+    const int MAX_INPUT_NUM = 3999; // These constants hold high and low integer numbers,
+    const int MIN_INPUT_NUM = 1;
+    const int ANSWER_SIZE = 4; // and the array size declarator.
+
+
+    string answers[ANSWER_SIZE] = {"", "", "", ""}; //holds the output from the convert function.
+
+// Check that the input is in the allowed range
+    if (intInput == 0 || intInput > MAX_INPUT_NUM) {
+        return "Invalid Value. Number must be between 1 and 3999";
+
+    } else if (intInput < MIN_INPUT_NUM) {
+        return "Invalid Value. Number must be between 1 and 3999";
+
+    }
+// Separate the different multipliers
+    int thous = intInput / 1000;
+    int hund = intInput % 1000 / 100;
+    int tens = intInput % 100 / 10;
+    int ones = intInput % 10 / 1;
+
+
+    answers[0] = convert(thous, "M", "M", "M");
+    answers[1] = convert(hund, "C", "D", "M");
+    answers[2] = convert(tens, "X", "L", "C");
+    answers[3] = convert(ones, "I", "V", "X");
+
+    string strRomanOut;
+    strRomanOut = answers[0] + answers[1] + answers[2] + answers[3];
+
+    return strRomanOut;
+
+}
+
+/*
+ * Replace the decimal value for each multiplier with the equivilant Roman
+ * numeral
+ */
+string convert(int digit, string first, string second, string third) {
+    if (digit == 1) {
+        return first;
+    }
+    if (digit == 2) {
+        return first + first;
+    }
+    if (digit == 3) {
+        return first + first + first;
+    }
+    if (digit == 4) {
+        return first + second;
+    }
+    if (digit == 5) {
+        return second;
+    }
+    if (digit == 6) {
+        return second + first;
+    }
+    if (digit == 7) {
+        return second + first + first;
+    }
+    if (digit == 8) {
+        return second + first + first + first;
+    }
+    if (digit == 9) {
+        return first + third;
+    }
+    if (digit == 0) {
+        return "";
+    }
 }
 
 
