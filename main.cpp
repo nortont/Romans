@@ -31,7 +31,7 @@ string selectRoman(string & strInput);
 int extractDigits(string stInput, bool& isRoman);
 string convert(int digit, string low, string mid, string high);
 string convertToRoman(int intInput);
-
+string numToRoman(string strUserNum);
 /*
  * Man Program
  */
@@ -54,8 +54,10 @@ int main(int argc, char** argv) {
         //Test if number or letter
         intDigits = extractDigits(strInput, isRoman);
         if (isRoman == false) {
-            string strRomanOut = convertToRoman(intDigits);
+          //  string strRomanOut = convertToRoman(intDigits);
+            string strRomanOut = numToRoman(strInput);
             cout << strRomanOut << endl;
+            
         } else {
             // convert all to uppercase
             upperCase(strInput);
@@ -226,7 +228,7 @@ string convertToRoman(int intInput) {
     int tens = intInput % 100 / 10;
     int ones = intInput % 10 / 1;
 
-
+// Replace the multiplier with the Roman sequence
     answers[0] = convert(thous, "M", "M", "M");
     answers[1] = convert(hund, "C", "D", "M");
     answers[2] = convert(tens, "X", "L", "C");
@@ -240,7 +242,7 @@ string convertToRoman(int intInput) {
 }
 
 /*
- * Replace the decimal value for each multiplier with the equivilant Roman
+ * Replace the decimal value for each multiplier with the equivelant Roman
  * numeral
  */
 string convert(int digit, string first, string second, string third) {
@@ -277,3 +279,43 @@ string convert(int digit, string first, string second, string third) {
 }
 
 
+
+
+#include <iostream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+string numToRoman(string strUserNum)
+{
+
+//set the size of the array to 10
+    const int ARRAY_SIZE = 10;
+
+//declare variables
+    int userNum = 0;
+//    string strUserNum;
+//
+//    cin >> strUserNum;
+
+//change cin from user from str to int   
+    userNum = stoi(strUserNum);
+
+    
+//initialise the romans array
+    string thos[ARRAY_SIZE] = ("", "M", "MM", "MMM");                                    
+    string huns[ARRAY_SIZE] = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};   
+    string tens[ARRAY_SIZE] = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};    
+    string ones[ARRAY_SIZE] = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"}; 
+
+//seperate the number into parts    
+    int a = userNum / 1000;
+    int b = userNum % 1000 / 100;
+    int c = userNum % 100 / 10;
+    int d = userNum % 10 / 1;
+
+//prints the roman number 
+    return thos[a]+huns[b]+tens[c]+ones[d];
+
+    
+}
