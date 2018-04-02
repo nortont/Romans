@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
         } 
         else if (intromanOrDecimal == -1) {
             //no conversion - return 0
-            cout << findRomansFromRight(strRoman) << endl;
+            cout << "0" << endl;
         }
     }
    
