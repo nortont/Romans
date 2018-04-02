@@ -19,9 +19,9 @@ using namespace std;
 void upperCase(string &strInput);
 int findRomansFromRight(string strInput);
 string selectRoman(string & strInput);
-int extractDigits(string stInput, bool& isRoman);
+int romanOrDecimal(string strInput);
+int extractDigits(string stInput);
 string numToRoman(int intUserNum);
-
 
 /*
  * Man Program
@@ -31,7 +31,6 @@ int main(int argc, char** argv) {
     string strRoman; // Hold string cut down to first Roman number only
     int pos = 0; //current location in the search string
     int intDigits = 0; // Value of numbers inputed
-    bool isRoman = true; // if is numbers of Roman input
 
     // Check for input arguments
     if (argc > 1) {
@@ -40,52 +39,90 @@ int main(int argc, char** argv) {
 
 
     while (cin >> strInput) {
-    
-        //Test if number or letter
-        intDigits = extractDigits(strInput, isRoman);
-        if (isRoman == false) {
-          //  string strRomanOut = convertToRoman(intDigits);
-            string strRomanOut = numToRoman(intDigits);
-            cout << strRomanOut << endl;
-            
-        } else {
-            // convert all to uppercase
-            upperCase(strInput);
 
+        // convert all to uppercase
+        upperCase(strInput);
+        //Test if number or letter
+        int intromanOrDecimal = romanOrDecimal(strInput);
+        if (intromanOrDecimal == 0) {
+            //select only parts that are Decimal
+            intDigits = extractDigits(strInput);
+            //  string strRomanOut = convertToRoman(intDigits);
+            cout << numToRoman(intDigits) << endl;
+        } else if (intromanOrDecimal == 1) {
             //select only parts that are Romans
             strRoman = selectRoman(strInput);
-
-            /*
-             * Convert from Roman to decimal
-             */
-
+            // Convert from Roman to decimal
             cout << findRomansFromRight(strRoman) << endl;
-
-            // cin>>strInput; // Get the next input
         }
     }
+   
     return 0;
+}
+
+/* 
+ * Find if first digit is roman or decimal
+ * roman=1
+ * decimal=0
+ * if neither -1
+ */
+int romanOrDecimal(string strInput) {
+    int foundDecimal = strInput.find_first_of("0123456789");
+    int foundRoman = strInput.find_first_of("MDCLXVI");
+    if (foundDecimal == 0) {
+        return 0;
+    } else if (foundRoman == 0) {
+        return 1;
+    } else {
+        return -1;
+
+    }
 }
 
 /*
  * Determine if the input is a decimal number
  * Return true if it is 
  */
-int extractDigits(string strInput, bool& isRoman) {
+int extractDigits(string strInput) {
     int intTemp = 0;
+    string strTemp = strInput;
+ 
     //test if all numbers and use that if true
-    if (strInput.find_first_not_of("0123456789") == string::npos) {
-        
-        //intTemp = stoi(strInput);
-        
-         char * cstrInput = new char [strInput.length()+1];
-        strcpy (cstrInput, strInput.c_str()); //convert string to char array
+    int found = strTemp.find_first_not_of("0123456789");
+
+    if (found != std::string::npos) {
+        // Erase all after the last decimal number
+        int last = strTemp.length();
+        strTemp.erase(found, last);
+
+    }
+    if (strTemp.find_first_not_of("0123456789") == string::npos) {
+
+        char * cstrInput = new char [strTemp.length() + 1];
+        strcpy(cstrInput, strTemp.c_str()); //convert string to char array
         intTemp = atoi(cstrInput);
-        isRoman = false; //decimal numbers
         return intTemp;
-    } else {
-        isRoman = true; //not decimal   
-        return -1;
+
+    }
+
+    return -1;
+
+}
+
+/* select only parts that are Romans, removing the rest
+   Search for MXVIL in any order from LHS, stopping when any other
+   Character is found
+ */
+string selectRoman(string & strInput) {
+    string strTemp = strInput;
+
+    int found = strTemp.find_first_not_of("MDCLXVI");
+
+    if (found != std::string::npos) {
+        // Erase all after the last Roman
+        int last = strTemp.length();
+        strTemp.erase(found, last);
+        return strTemp;
     }
 
 }
@@ -182,49 +219,28 @@ int findRomansFromRight(string strInput) {
     return total;
 }
 
-/* select only parts that are Romans, removing the rest
-   Search for MXVIL in any order from LHS, stopping when any other
-   Character is found
- */
-string selectRoman(string & strInput) {
-    string strTemp = strInput;
+string numToRoman(int intUserNum) {
 
-    int found = strTemp.find_first_not_of("MDCLXVI");
-
-    if (found != std::string::npos) {
-        // Erase all after the last Roman
-        int last = strTemp.length();
-        strTemp.erase(found, last);
-        return strTemp;
-    }
-
-}
-
-
-
-string numToRoman(int intUserNum)
-{
-
-//set the size of the array to 10
+    //set the size of the array to 10
     const int ARRAY_SIZE = 10;
 
-//declare variables
+    //declare variables
 
 
-//initialise the romans array
-    string thos[ARRAY_SIZE] = {"", "M", "MM", "MMM"};                                    
-    string huns[ARRAY_SIZE] = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};   
-    string tens[ARRAY_SIZE] = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};    
-    string ones[ARRAY_SIZE] = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"}; 
+    //initialise the romans array
+    string thos[ARRAY_SIZE] = {"", "M", "MM", "MMM"};
+    string huns[ARRAY_SIZE] = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
+    string tens[ARRAY_SIZE] = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
+    string ones[ARRAY_SIZE] = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
 
-//seperate the number into parts    
+    //seperate the number into parts    
     int a = intUserNum / 1000;
     int b = intUserNum % 1000 / 100;
     int c = intUserNum % 100 / 10;
     int d = intUserNum % 10 / 1;
 
-//prints the roman number 
-    string strOutput = thos[a]+huns[b]+tens[c]+ones[d];
+    //prints the roman number 
+    string strOutput = thos[a] + huns[b] + tens[c] + ones[d];
     return strOutput;
-    
+
 }
