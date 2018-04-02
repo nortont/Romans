@@ -49,10 +49,15 @@ int main(int argc, char** argv) {
             intDigits = extractDigits(strInput);
             //  string strRomanOut = convertToRoman(intDigits);
             cout << numToRoman(intDigits) << endl;
-        } else if (intromanOrDecimal == 1) {
+        } 
+        else if (intromanOrDecimal == 1) {
             //select only parts that are Romans
             strRoman = selectRoman(strInput);
             // Convert from Roman to decimal
+            cout << findRomansFromRight(strRoman) << endl;
+        } 
+        else if (intromanOrDecimal == -1) {
+            //no conversion - return 0
             cout << findRomansFromRight(strRoman) << endl;
         }
     }
