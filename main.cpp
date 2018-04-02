@@ -75,7 +75,12 @@ int extractDigits(string strInput, bool& isRoman) {
     int intTemp = 0;
     //test if all numbers and use that if true
     if (strInput.find_first_not_of("0123456789") == string::npos) {
-        intTemp = stoi(strInput);
+        
+        //intTemp = stoi(strInput);
+        
+         char * cstrInput = new char [strInput.length()+1];
+        strcpy (cstrInput, strInput.c_str()); //convert string to char array
+        intTemp = atoi(cstrInput);
         isRoman = false; //decimal numbers
         return intTemp;
     } else {
